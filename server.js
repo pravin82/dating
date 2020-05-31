@@ -26,9 +26,7 @@ let corsOptions = {
     origin: 'http://localhost:3000',
     credentials: true,
 }
-if(isProd) {
-	corsOptions.origin = 'https://www.shulkpay.com'
-}
+
 app.use(cookieParser())
 
 app.use(cors(corsOptions));
