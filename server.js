@@ -5,8 +5,9 @@ const logger = require("morgan");
 const app = (module.exports = express());
 const path = require('path')
 const cookieParser = require('cookie-parser')
-
 global.__base = __dirname + "/";
+const session = require(`${__base}/database/session`);
+
 const db = require(`${__base}/database/sql`);
 const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,7 +29,7 @@ let corsOptions = {
 }
 
 app.use(cookieParser())
-
+app.use(session());
 app.use(cors(corsOptions));
 if(isProd){
   app.enable('view cache')
