@@ -2,9 +2,6 @@ const dbUtils = require(`${__base}/database/sql`);
 
 
 
-
-
-
 function validateActivityData(base_userId, target_userId, activity){
 	let vaildateDataResp = {}
 	const validActivitis = ['LIKE', 'SUPERLIKE','BLOCK']
@@ -44,8 +41,32 @@ async function addActivity(req, res) {
 	return addActivityResp;
 }
 
+async function getFeed(req, res){
+	const { userId } = req.session
+	let statement =  `select u.id, u.name, u.image from users u where u.id not in(
+	                  select i.base_user from interactions i 
+	                  where i.target_user = $1  and i.user_activity = 'BLOCK')`
+	let values = [userId]
+	let getFeedResp = await dbUtils.sqlExecutorAsync(req, res, statement, values);
+	return getFeedResp
+}
+
+async function getSuperLikes(req, res) {
+	const {userId} = req.session
+	let statement = ` select u.id, u.name, u.image from users u where u.id in (
+	                  select i.base_user from interactions i 
+	                  where i.target_user = $1 and i.user_activity = 'SUPERLIKE)`
+	let values = [userId]
+	let getSuperLikesResp = await dbUtils.sqlExecutorAsync(req, res, statement, values);
+	return getSuperLikesResp
+}
+
+
+
 
 
 module.exports = {
-	addActivity
+	addActivity,
+	getFeed,
+	getSuperLikes
 }

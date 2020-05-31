@@ -7,5 +7,19 @@ router.post("/", async (req, res) => {
 	res.send(activityResp);
 });
 
+router.get("/feed", async (req, res) => {
+	const feedResp = await studentFactory.getFeed(req, res);
+	res.send(feedResp);
+});
+
+router.get("/superlikes", async (req, res) => {
+	const superLikeResp = await studentFactory.getSuperLikes(req, res);
+	res.send(superLikeResp);
+});
+
+
+
+
+
 
 module.exports = router;
