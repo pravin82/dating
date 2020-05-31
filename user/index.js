@@ -17,6 +17,13 @@ function checkFields(email, password){
      return checkFieldsResp;
 }
 
+async function saveSession(req, res, userData) {
+	req.session.email = userData.email;
+	req.session.userId = userData.id;
+	req.session.name = userData.name;
+	req.session.save();
+}
+
 function generateToken(email, name, userId){
 	const token = jwt.sign({ email, name, userId}, SECRET_KEY, {
 		algorithm: "HS256",
@@ -53,6 +60,7 @@ async function loginUser(req, res) {
     		respObj.status = "success"
     		respObj.msg = "Login Successfull"
     		respObj.token = generateToken(email, userData.name, userData.id)
+    		saveSession(req, res, userData)
 
     	} else {
     		respObj.status = 'error'
