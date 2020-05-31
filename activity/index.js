@@ -55,7 +55,7 @@ async function getSuperLikes(req, res) {
 	const {userId} = req.session
 	let statement = ` select u.id, u.name, u.image from users u where u.id in (
 	                  select i.base_user from interactions i 
-	                  where i.target_user = $1 and i.user_activity = 'SUPERLIKE)`
+	                  where i.target_user = $1 and i.user_activity = 'SUPERLIKE')`
 	let values = [userId]
 	let getSuperLikesResp = await dbUtils.sqlExecutorAsync(req, res, statement, values);
 	return getSuperLikesResp
