@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 const PORT = process.env.npm_package_config_port || 4000;
 const API_PORT = 3001;
-const apiRouter = require(`${__base}/router/router`);
+const apiRouter = require(`${__base}/routes/router`);
 const isProd = 'ENVIRONMENT' in process.env && process.env.ENVIRONMENT === 'prod';
 
 
